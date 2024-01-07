@@ -16,6 +16,7 @@ namespace common::constants
 {{
 
 const int TOTAL_NUM_KEYS = {total_num_keys};
+const int TOTAL_NUM_LEDS = {total_num_leds};
 const int NUM_ROWS = {num_rows};
 const int NUM_COLS = {num_cols};
 
@@ -27,6 +28,11 @@ constexpr KeyDescription KEY_PROPERTIES[constants::TOTAL_NUM_KEYS] =
 constexpr KeyDescription const* KEY_PROPERTIES_BY_ROW_COL[constants::NUM_ROWS][constants::NUM_COLS] =
 {{
     {rows_and_cols}
+}};
+
+constexpr LEDDescription LED_PROPERTIES[constants::TOTAL_NUM_LEDS] =
+{{
+    {led_rows}
 }};
 
 }}
@@ -45,6 +51,17 @@ initialLayout =
 """
 
 
+class LEDDescription:
+    def __init__(self, strip_index: int, x: float, y: float, key_description_index: Optional[int]):
+        self.strip_index: int = strip_index
+        self.x: float = x
+        self.y: float = y
+        self.key_description_index: Optional[int] = key_description_index
+
+    def to_cpp(self) -> str:
+        return f"LEDDescription {{ {self.strip_index}, {self.x}, {self.y}, {'nullptr' if self.key_description_index is None else '&KEY_PROPERTIES[' + str(self.key_description_index) + ']'} }}"
+
+
 class KeyDescription:
     def __init__(self, row: int, col: int, x: float, y: float, height: float, width: float, default_key: int, default_key_str: Optional[str]):
         self.row: int = row
@@ -55,6 +72,7 @@ class KeyDescription:
         self.width: float = width
         self.default_key: int = default_key
         self.default_key_str: Optional[str] = default_key_str;
+        self.led_strip_index: Optional[int] = None
 
     def __str__(self) -> str:
         return f"KeyDescription(row={self.row}, col={self.col}, x={self.x}, y={self.y}, height={self.height}, width={self.width}, default_key={self.default_key}, default_key_str={self.default_key_str})"
@@ -63,7 +81,7 @@ class KeyDescription:
         return self.__str__()
 
     def to_cpp(self) -> str:
-        return f"KeyDescription {{ {self.row}, {self.col}, {self.x}, {self.y}, {self.height}, {self.width}, {hex(self.default_key)} {'/* ' + self.default_key_str + ' */' if self.default_key_str is not None else ''}}}"
+        return f"KeyDescription {{ {self.row}, {self.col}, {self.x}, {self.y}, {self.height}, {self.width}, {hex(self.default_key)} {'/* ' + self.default_key_str + ' */' if self.default_key_str is not None else ''}, {self.led_strip_index} }}"
 
     def to_elm(self) -> str:
         default_key = "Nothing"
@@ -93,6 +111,7 @@ def parse_args():
     parser.add_argument("-o", "--output", help="Path to the generated C++ or Elm file.",
                         type=str, default="output.cpp")
     parser.add_argument("-l", "--language", type=str, default="cpp", choices=["cpp", "elm"], help="The language of the output file, either 'cpp' or 'elm'")
+    parser.add_argument("-e", "--extra-led-descriptions", type=str, default=None, help="Path to a JSON file information on the LED:s which are not associated with any keys, such as the logo, as well as the starting direction for the snake pattern.")
     return parser.parse_args()
 
 
@@ -178,10 +197,56 @@ def get_row_col_grid(rows: List[List[KeyDescription]], max_col: int) -> List[Lis
     return grid
 
 
-def write_cpp(rows: List[List[KeyDescription]], max_col: int, output_path: str):
+def get_led_descriptions(rows: List[List[KeyDescription]], max_col: int, extra_led_descriptions: dict) -> List[LEDDescription]:
+    direction = extra_led_descriptions["direction"]
+    extra_leds = extra_led_descriptions["extra_leds"]
+
+    extra_leds_by_index = {el["index"]: el for el in extra_leds}
+
+    grid = get_row_col_grid(rows, max_col)
+    curr_row = 0
+    curr_col = 0 if direction == 1 else len(rows[0]) - 1
+    index = 0
+    leds = []
+    while True:
+        if curr_col == -1 or curr_col == len(rows[curr_row]):
+            direction *= -1
+            curr_row += 1
+            if curr_row == len(rows):
+                break
+
+            curr_col = 0 if direction == 1 else len(rows[curr_row]) - 1
+
+        if index in extra_leds_by_index:
+            leds.append(LEDDescription(
+                strip_index=index,
+                x=extra_leds_by_index[index]["x"],
+                y=extra_leds_by_index[index]["y"],
+                key_description_index=None))
+        else:
+            key_description = rows[curr_row][curr_col]
+            key_description.led_strip_index = index
+            key_description_index = grid[key_description.row][key_description.col]
+            leds.append(LEDDescription(
+                strip_index=index,
+                x=key_description.x,
+                y=key_description.y,
+                key_description_index=key_description_index))
+
+            curr_col += direction
+
+        index += 1
+    return leds
+
+
+def write_cpp(rows: List[List[KeyDescription]], max_col: int, output_path: str, extra_led_descriptions: dict):
+    leds = get_led_descriptions(rows, max_col, extra_led_descriptions)
+
     num_rows = len(rows)
     num_cols = max_col + 1
     total_num_keys = sum([len(row) for row in rows])
+
+    led_rows_str = ",\n    ".join([led.to_cpp() for led in leds])
 
     rows_str = ",\n    ".join([",\n    ".join(
         [key.to_cpp() for key in row]) for row in rows])
@@ -204,7 +269,9 @@ def write_cpp(rows: List[List[KeyDescription]], max_col: int, output_path: str):
         rows=rows_str,
         num_rows=num_rows,
         rows_and_cols=rows_and_cols,
-        num_cols=num_cols)
+        num_cols=num_cols,
+        led_rows=led_rows_str,
+        total_num_leds=len(leds))
     with open(output_path, "w") as f:
         f.write(cpp)
 
@@ -227,9 +294,14 @@ def main():
     with open(args.input) as f:
         json_layout = json.load(f)
 
+    extra_led_descriptions = {"direction": 1, "extra_leds": []}
+    if args.extra_led_descriptions is not None:
+        with open(args.extra_led_descriptions) as f:
+            extra_led_descriptions = json.load(f)
+
     rows, max_col = parse_json_layout(json_layout)
     if args.language == "cpp":
-        write_cpp(rows, max_col, args.output)
+        write_cpp(rows, max_col, args.output, extra_led_descriptions)
     elif args.language == "elm":
         write_elm(rows, max_col, args.output)
 

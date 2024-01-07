@@ -1,0 +1,10 @@
+{
+    "direction": -1,
+    "extra_leds": [
+        {
+            "index": 0,
+            "x": 0,
+            "y": 0
+        }
+    ]
+}
