@@ -92,7 +92,7 @@ class KeyDescription:
                 default_key = f"(Just [ {{ key = 0, modifier = 0, media = {hex(self.default_key)} }} ])"
             else:
                 default_key = f"(Just [ {{ key = {hex(self.default_key)}, modifier = 0, media = 0 }} ])"
-        return f"Key {self.row} {self.col} {self.x} {self.y} {self.height} {self.width} {default_key}"
+        return f"Key {self.row} {self.col} {self.x} {self.y} {self.height} {self.width} {default_key} Nothing Nothing"
 
 
 def code_is_modifier(code: int) -> bool:
