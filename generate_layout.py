@@ -83,7 +83,7 @@ class KeyDescription:
     def to_cpp(self) -> str:
         return f"KeyDescription {{ {self.row}, {self.col}, {self.x}, {self.y}, {self.height}, {self.width}, {hex(self.default_key)} {'/* ' + self.default_key_str + ' */' if self.default_key_str is not None else ''}, {self.led_strip_index} }}"
 
-    def to_elm(self) -> str:
+    def to_elm(self, key_id: int) -> str:
         default_key = "Nothing"
         if self.default_key_str is not None:
             if code_is_modifier(self.default_key):
@@ -92,7 +92,7 @@ class KeyDescription:
                 default_key = f"(Just [ {{ key = 0, modifier = 0, media = {hex(self.default_key)} }} ])"
             else:
                 default_key = f"(Just [ {{ key = {hex(self.default_key)}, modifier = 0, media = 0 }} ])"
-        return f"Key {self.row} {self.col} {self.x} {self.y} {self.height} {self.width} {default_key} Nothing Nothing"
+        return f"Key {key_id} {self.row} {self.col} {self.x} {self.y} {self.height} {self.width} {default_key} Nothing Nothing"
 
 
 def code_is_modifier(code: int) -> bool:
@@ -277,8 +277,14 @@ def write_cpp(rows: List[List[KeyDescription]], max_col: int, output_path: str, 
 
 
 def write_elm(rows: List[List[KeyDescription]], max_col: int, output_path: str):
-    rows_str = "\n  , ".join(
-        [key.to_elm() for row in rows for key in row])
+    rows_list = []
+    index = 0
+    for row in rows:
+        for key in row:
+            rows_list.append(key.to_elm(index))
+            index += 1
+
+    rows_str = "\n  , ".join(rows_list)
     elm = ELM_SKELETON.format(rows=rows_str)
     with open(output_path, "w") as f:
         f.write(elm)
