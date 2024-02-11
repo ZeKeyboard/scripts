@@ -71,7 +71,7 @@ class KeyDescription:
         self.height: float = height
         self.width: float = width
         self.default_key: int = default_key
-        self.default_key_str: Optional[str] = default_key_str;
+        self.default_key_str: Optional[str] = default_key_str
         self.led_strip_index: Optional[int] = None
 
     def __str__(self) -> str:
@@ -86,12 +86,7 @@ class KeyDescription:
     def to_elm(self, key_id: int) -> str:
         default_key = "Nothing"
         if self.default_key_str is not None:
-            if code_is_modifier(self.default_key):
-                default_key = f"(Just <| Single {{ key = 0, modifier = {hex(self.default_key)}, media = 0 }} )"
-            elif code_is_media(self.default_key):
-                default_key = f"(Just <| Single {{ key = 0, modifier = 0, media = {hex(self.default_key)} }} )"
-            else:
-                default_key = f"(Just <| Single {{ key = {hex(self.default_key)}, modifier = 0, media = 0 }} )"
+            default_key = f"(Just <| Single {hex(self.default_key)} )"
         return f"Key {key_id} {self.row} {self.col} {self.x} {self.y} {self.height} {self.width} {default_key} Nothing Nothing"
 
 
