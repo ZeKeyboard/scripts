@@ -30,19 +30,19 @@
     {
       "y": 0.25
     },
-    "~\n`\n\n\n\n\ncol0",
-    "!\n1\n\n\n\n\ncol1",
-    "@\n2\n\n\n\n\ncol2",
-    "#\n3\n\n\n\n\ncol3",
-    "$\n4\n\n\n\n\ncol4",
-    "%\n5\n\n\n\n\ncol5",
-    "^\n6\n\n\n\n\ncol6",
-    "&\n7\n\n\n\n\ncol7",
-    "*\n8\n\n\n\n\ncol8",
-    "(\n9\n\n\n\n\ncol9",
-    ")\n0\n\n\n\n\ncol10",
-    "_\n-\n\n\n\n\ncol11",
-    "+\n=\n\n\n\n\ncol12",
+    "~\n\n\n\n\n\ncol0",
+    "1\n\n\n\n\n\ncol1",
+    "2\n\n\n\n\n\ncol2",
+    "3\n\n\n\n\n\ncol3",
+    "4\n\n\n\n\n\ncol4",
+    "5\n\n\n\n\n\ncol5\n\n5",
+    "6\n\n\n\n\n\ncol6",
+    "7\n\n\n\n\n\ncol7",
+    "8\n\n\n\n\n\ncol8",
+    "9\n\n\n\n\n\ncol9",
+    "0\n\n\n\n\n\ncol10",
+    "-\n\n\n\n\n\ncol11",
+    "=\n\n\n\n\n\ncol12",
     {
       "w": 2
     },
@@ -59,9 +59,9 @@
     {
       "a": 4
     },
-    "/\n\n\n\n\n\ncol16",
-    "*\n\n\n\n\n\ncol17",
-    "-\n\n\n\n\n\ncol18"
+    "K/\n\n\n\n\n\ncol16",
+    "K*\n\n\n\n\n\ncol17",
+    "K-\n\n\n\n\n\ncol18"
   ],
   [
     {
@@ -78,12 +78,12 @@
     "I\n\n\n\n\n\ncol8",
     "O\n\n\n\n\n\ncol9",
     "P\n\n\n\n\n\ncol10",
-    "{\n[\n\n\n\n\ncol11",
-    "}\n]\n\n\n\n\ncol12",
+    "[\n\n\n\n\n\ncol11",
+    "]\n\n\n\n\n\ncol12",
     {
       "w": 1.5
     },
-    "|\n\\\n\n\n\n\ncol13",
+    "\\\n\n\n\n\n\ncol13",
     {
       "x": 0.25,
       "a": 6
@@ -93,13 +93,13 @@
       "x": 0.25,
       "a": 4
     },
-    "7\nHome\n\n\n\n\ncol15",
-    "8\n↑\n\n\n\n\ncol16",
-    "9\nPgUp\n\n\n\n\ncol17",
+    "K7\n\n\n\n\n\ncol15",
+    "K8\n\n\n\n\n\ncol16",
+    "K9\n\n\n\n\n\ncol17",
     {
       "h": 2
     },
-    "+\n\n\n\n\n\ncol18"
+    "K+\n\n\n\n\n\ncol18"
   ],
   [
     {
@@ -115,8 +115,8 @@
     "J\n\n\n\n\n\ncol7",
     "K\n\n\n\n\n\ncol8",
     "L\n\n\n\n\n\ncol9",
-    ":\n;\n\n\n\n\ncol10",
-    "\"\n'\n\n\n\n\ncol11",
+    ";\n\n\n\n\n\ncol10",
+    "'\n\n\n\n\n\ncol11",
     {
       "w": 2.25
     },
@@ -130,16 +130,16 @@
       "x": 0.25,
       "a": 4
     },
-    "4\n←\n\n\n\n\ncol15",
-    "5\n\n\n\n\n\ncol16",
-    "6\n→\n\n\n\n\ncol17"
+    "K4\n\n\n\n\n\ncol15",
+    "K5\n\n\n\n\n\ncol16",
+    "K6\n\n\n\n\n\ncol17"
   ],
   [
     {
       "w": 1.25
     },
     "Shift\n\n\n\n\n\ncol0",
-    "<>\n\n\n\n\n\ncol1",
+    "N/\n\n\n\n\n\ncol1",
     "Z\n\n\n\n\n\ncol2",
     "X\n\n\n\n\n\ncol3",
     "C\n\n\n\n\n\ncol4",
@@ -147,33 +147,33 @@
     "B\n\n\n\n\n\ncol6",
     "N\n\n\n\n\n\ncol7",
     "M\n\n\n\n\n\ncol8",
-    "<\n,\n\n\n\n\ncol9",
-    ">\n.\n\n\n\n\ncol10",
-    "?\n/\n\n\n\n\ncol11",
+    ",\n\n\n\n\n\ncol9",
+    ".\n\n\n\n\n\ncol10",
+    "/\n\n\n\n\n\ncol11",
     {
       "x": 0.375
     },
     "Up\n\n\n\n\n\ncol12",
     {
-      "x": 0.375
-    },
-    "Down\n\n\n\n\n\ncol13",
-    {
-      "x": 0.25,
+      "x": 0.375,
       "a": 6
+    },
+    "col13",
+    {
+      "x": 0.25
     },
     "col14",
     {
       "x": 0.25,
       "a": 4
     },
-    "1\nEnd\n\n\n\n\ncol15",
-    "2\n↓\n\n\n\n\ncol16",
-    "3\nPgDn\n\n\n\n\ncol17",
+    "K1\n\n\n\n\n\ncol15",
+    "K2\n\n\n\n\n\ncol16",
+    "K3\n\n\n\n\n\ncol17",
     {
       "h": 2
     },
-    "Enter\n\n\n\n\n\ncol18"
+    "KENTER\n\n\n\n\n\ncol18"
   ],
   [
     {
@@ -183,7 +183,7 @@
     {
       "w": 1.25
     },
-    "Win\n\n\n\n\n\ncol1",
+    "Gui\n\n\n\n\n\ncol1",
     {
       "w": 1.25
     },
@@ -195,23 +195,21 @@
     {
       "w": 1.75
     },
-    "Fn\n\n\n\n\n\ncol6",
+    "Space\n\n\n\n\n\ncol6",
     {
-      "a": 6,
       "w": 2.25
     },
-    "col8",
+    "Space\n\n\n\n\n\ncol8",
     {
-      "a": 4,
       "w": 1.25
     },
-    "Alt\n\n\n\n\n\ncol10",
+    "RAlt\n\n\n\n\n\ncol10",
     {
       "x": 0.375
     },
-    "Win\n\n\n\n\n\ncol11",
-    "Menu\n\n\n\n\n\ncol12",
-    "Ctrl\n\n\n\n\n\ncol13",
+    "Left\n\n\n\n\n\ncol11",
+    "Down\n\n\n\n\n\ncol12",
+    "Right\n\n\n\n\n\ncol13",
     {
       "x": 0.625,
       "a": 6
@@ -222,7 +220,7 @@
       "a": 4,
       "w": 2
     },
-    "0\nIns\n\n\n\n\ncol15",
-    ".\nDel\n\n\n\n\ncol17"
+    "K0\n\n\n\n\n\ncol15",
+    "K.\nDel\n\n\n\n\ncol17"
   ]
 ]

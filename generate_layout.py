@@ -122,10 +122,10 @@ def extract_col(text: str) -> int:
 def extract_default_key(text: str) -> Optional[str]:
     col_num = extract_col(text)
     text_col_split = text.upper().split(f"COL{col_num}")
-    key_first_half = keycodes.KEY_CODE_NAMES.get(text_col_split[0].strip(), None)
+    key_first_half = keycodes.KEY_CODE_NAMES.get(text_col_split[0].strip().upper(), None)
     if key_first_half is not None:
         return key_first_half
-    return keycodes.KEY_CODE_NAMES.get(text_col_split[1].strip(), None)
+    return keycodes.KEY_CODE_NAMES.get(text_col_split[1].strip().upper(), None)
 
 
 def parse_json_layout(json_layout) -> Tuple[List[List[KeyDescription]], int]:
