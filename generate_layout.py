@@ -19,6 +19,8 @@ const int TOTAL_NUM_KEYS = {total_num_keys};
 const int TOTAL_NUM_LEDS = {total_num_leds};
 const int NUM_ROWS = {num_rows};
 const int NUM_COLS = {num_cols};
+constexpr float MAX_X = {max_x};
+constexpr float MAX_Y = {max_y};
 
 constexpr KeyDescription KEY_PROPERTIES[constants::TOTAL_NUM_KEYS] =
 {{
@@ -240,6 +242,8 @@ def write_cpp(rows: List[List[KeyDescription]], max_col: int, output_path: str, 
     num_rows = len(rows)
     num_cols = max_col + 1
     total_num_keys = sum([len(row) for row in rows])
+    max_x = max(leds, key=lambda l: l.x).x
+    max_y = max(leds, key=lambda l: l.y).y
 
     led_rows_str = ",\n    ".join([led.to_cpp() for led in leds])
 
@@ -266,7 +270,9 @@ def write_cpp(rows: List[List[KeyDescription]], max_col: int, output_path: str, 
         rows_and_cols=rows_and_cols,
         num_cols=num_cols,
         led_rows=led_rows_str,
-        total_num_leds=len(leds))
+        total_num_leds=len(leds),
+        max_x=max_x,
+        max_y=max_y)
     with open(output_path, "w") as f:
         f.write(cpp)
 
